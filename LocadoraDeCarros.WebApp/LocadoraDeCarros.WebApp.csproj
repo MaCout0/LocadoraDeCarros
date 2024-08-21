@@ -6,4 +6,25 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\LocadoraDeCarros.Dominio\LocadoraDeCarros.Dominio.csproj" />
+      <ProjectReference Include="..\LocadoraDeCarros.Infra.Orm\LocadoraDeCarros.Infra.Orm.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="13.0.1" />
+      <PackageReference Include="FluentResults" Version="3.16.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.7" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.7">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="8.0.7" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="View\Home\" />
+      <Folder Include="wwwroot\img\" />
+    </ItemGroup>
+
 </Project>
