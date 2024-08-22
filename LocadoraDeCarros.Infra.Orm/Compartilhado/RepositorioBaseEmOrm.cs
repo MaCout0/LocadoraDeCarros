@@ -5,9 +5,9 @@ namespace LocadoraDeCarros.Infra.Orm.Compartilhado;
 
 public abstract class RepositorioBaseEmOrm<TEntidade> where TEntidade: EntidadeBase
 {
-    protected readonly LocadoraDeCarrosDbContext _dbContext;
+    protected readonly LocadoraDbContext _dbContext;
 
-    protected RepositorioBaseEmOrm(LocadoraDeCarrosDbContext dbContext)
+    protected RepositorioBaseEmOrm(LocadoraDbContext dbContext)
     {
         this._dbContext = dbContext;
     }

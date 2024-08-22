@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace LocadoraDeCarros.Infra.Orm.Compartilhado;
 
-public class LocadoraDeCarrosDbContext : DbContext
+public class LocadoraDbContext : DbContext
 {
     public DbSet<GrupoDeAutomoveis> GrupoAutomoveis { get; set; }
     
@@ -21,13 +21,13 @@ public class LocadoraDeCarrosDbContext : DbContext
 
         optionsBuilder.UseSqlServer(connectionString);
 
-        optionsBuilder.LogTo(Console.WriteLine).EnableSensitiveDataLogging();
-
         base.OnConfiguring(optionsBuilder);
     }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new MapeadorGrupoDeAutomoveisEmOrm());
+            
+            base.OnModelCreating(modelBuilder);
         }
 }

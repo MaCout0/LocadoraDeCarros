@@ -6,21 +6,8 @@ using System.Security.Claims;
 
 namespace LocadoraDeCarros.WebApp.Compartilhado;
 
-public class WebControllerBase : Controller
+public class WebControllerBase : Microsoft.AspNetCore.Mvc.Controller
 {
-    protected int? UsuarioId
-    {
-        get
-        {
-            var usuarioAutenticado = User.FindFirst(ClaimTypes.NameIdentifier);
-
-            if (usuarioAutenticado is null)
-                return null;
-
-            return int.Parse(usuarioAutenticado.Value);
-        }
-    }
-
     protected IActionResult MensagemRegistroNaoEncontrado(int idRegistro)
     {
         TempData.SerializarMensagemViewModel(new MensagemViewModel

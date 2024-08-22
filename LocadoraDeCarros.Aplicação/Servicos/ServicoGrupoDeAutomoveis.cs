@@ -3,13 +3,13 @@ using FluentResults;
 
 namespace LocadoraDeCarros.Aplicação.Servicos;
 
-public class GrupoDeAutomoveisService
+public class ServicoGrupoDeAutomoveis
 {
     private readonly IRepositorioGrupoDeAutomovel repositorioGrupo;
 
-    public GrupoDeAutomoveisService(IRepositorioGrupoDeAutomovel repositorioGrupo)
+    public ServicoGrupoDeAutomoveis(IRepositorioGrupoDeAutomovel repositorioGrupo)
     {
-        this.repositorioGrupo = this.repositorioGrupo;
+        this.repositorioGrupo = repositorioGrupo;
     }
 
     public Result<GrupoDeAutomoveis> Inserir(GrupoDeAutomoveis grupoDeAutomoveis)
@@ -33,7 +33,7 @@ public class GrupoDeAutomoveisService
         return Result.Ok(grupo);
     }
 
-    public Result Excluir(int grupoId)
+    public Result<GrupoDeAutomoveis> Excluir(int grupoId)
     {
         var grupo = repositorioGrupo.SelecionarPorId(grupoId);
 
@@ -42,7 +42,7 @@ public class GrupoDeAutomoveisService
         
         repositorioGrupo.Excluir(grupo);
 
-        return Result.Ok();
+        return Result.Ok(grupo);
     }
 
     public Result<GrupoDeAutomoveis> SeleCionarPorId(int grupoId)
@@ -55,11 +55,11 @@ public class GrupoDeAutomoveisService
         return Result.Ok(grupo);
     }
 
-    public Result<List<GrupoDeAutomoveis>> SelecionarTodos(int usuarioId)
+    public Result<List<GrupoDeAutomoveis>> SelecionarTodos()
     {
-        //var grupos = repositorioGrupo
-        //    .Filtrar(f => f.Nome == usuarioId);
-        return Result.Ok();
+        var grupos = repositorioGrupo.SelecionarTodos();
+
+        return Result.Ok(grupos);
     }
 
 }

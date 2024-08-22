@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LocadoraDeCarros.Infra.Orm.Migrations
 {
-    [DbContext(typeof(LocadoraDeCarrosDbContext))]
+    [DbContext(typeof(LocadoraDbContext))]
     [Migration("20240821180527_Initial")]
     partial class Initial
     {

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LocadoraDeCarros.Infra.Orm.Migrations
 {
-    [DbContext(typeof(LocadoraDeCarrosDbContext))]
+    [DbContext(typeof(LocadoraDbContext))]
     partial class LocadoraDeCarrosDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

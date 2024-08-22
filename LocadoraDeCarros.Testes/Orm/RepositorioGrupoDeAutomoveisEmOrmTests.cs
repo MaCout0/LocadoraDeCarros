@@ -7,13 +7,13 @@ namespace LocadoraDeCarros.Testes.Integracao.Orm;
 [TestClass]
 public class RepositorioGrupoDeAutomoveisEmOrmTests
 {
-    private LocadoraDeCarrosDbContext db;
+    private LocadoraDbContext db;
     private RepositorioGrupoDeAutomovelEmOrm repositorioGrupo;
 
     [TestInitialize]
     public void ConfigurarTestes()
     {
-        db = new LocadoraDeCarrosDbContext();
+        db = new LocadoraDbContext();
         
         db.GrupoAutomoveis.RemoveRange(db.GrupoAutomoveis);
 
