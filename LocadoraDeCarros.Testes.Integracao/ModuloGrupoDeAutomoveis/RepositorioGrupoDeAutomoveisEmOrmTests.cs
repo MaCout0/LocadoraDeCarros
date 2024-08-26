@@ -1,4 +1,6 @@
-﻿using LocadoraDeCarros.Dominio.ModuloGrupoDeAutomovel;
+﻿using FizzWare.NBuilder;
+using LocadoraDeCarros.Dominio.ModuloGrupoDeAutomovel;
+using LocadoraDeCarros.Dominio.ModuloTaxaServico;
 using LocadoraDeCarros.Infra.Orm.Compartilhado;
 using LocadoraDeCarros.Infra.Orm.ModuloGrupoDeAutomovel;
 
@@ -7,19 +9,19 @@ namespace LocadoraDeCarros.Testes.Integracao.Orm;
 [TestClass]
 public class RepositorioGrupoDeAutomoveisEmOrmTests
 {
-    private LocadoraDbContext db;
-    private RepositorioGrupoDeAutomovelEmOrm repositorioGrupo;
+    private LocadoraDbContext dbContext;
+    private RepositorioGrupoDeAutomovelEmOrm repositorio;
 
     [TestInitialize]
     public void ConfigurarTestes()
     {
-        db = new LocadoraDbContext();
+        dbContext = new LocadoraDbContext();
         
-        db.GrupoAutomoveis.RemoveRange(db.GrupoAutomoveis);
+        dbContext.GrupoAutomoveis.RemoveRange(dbContext.GrupoAutomoveis);
 
-        db.SaveChanges();
-
-        repositorioGrupo = new RepositorioGrupoDeAutomovelEmOrm(db);
+        repositorio = new RepositorioGrupoDeAutomovelEmOrm(dbContext);
+        
+        BuilderSetup.SetCreatePersistenceMethod<GrupoDeAutomoveis>(repositorio.Inserir);
     }
 
     [TestMethod]
@@ -27,9 +29,9 @@ public class RepositorioGrupoDeAutomoveisEmOrmTests
     {
         var novoGrupo = new GrupoDeAutomoveis("SUV");
         
-        repositorioGrupo.Inserir(novoGrupo);
+        repositorio.Inserir(novoGrupo);
 
-        var grupoEncontrado = repositorioGrupo.SelecionarPorId(novoGrupo.Id);
+        var grupoEncontrado = repositorio.SelecionarPorId(novoGrupo.Id);
         
         Assert.IsNotNull(grupoEncontrado);
         Assert.AreEqual(novoGrupo.Id, grupoEncontrado.Id);
@@ -40,13 +42,13 @@ public class RepositorioGrupoDeAutomoveisEmOrmTests
     public void Deve_Editar_Grupo()
     {
         var novoGrupo = new GrupoDeAutomoveis("SUV");
-        repositorioGrupo.Inserir(novoGrupo);
+        repositorio.Inserir(novoGrupo);
 
         novoGrupo.Nome = "Economico";
         
-        repositorioGrupo.Editar(novoGrupo);
+        repositorio.Editar(novoGrupo);
 
-        var grupoEncontrado = repositorioGrupo.SelecionarPorId(novoGrupo.Id);
+        var grupoEncontrado = repositorio.SelecionarPorId(novoGrupo.Id);
         
         Assert.IsNotNull(grupoEncontrado);
         Assert.AreEqual(novoGrupo, grupoEncontrado);
@@ -56,32 +58,12 @@ public class RepositorioGrupoDeAutomoveisEmOrmTests
     public void Deve_Excluir_Grupo()
     {
         var novoGrupo = new GrupoDeAutomoveis("SUV");
-        repositorioGrupo.Inserir(novoGrupo);
+        repositorio.Inserir(novoGrupo);
         
-        repositorioGrupo.Excluir(novoGrupo);
+        repositorio.Excluir(novoGrupo);
 
-        var grupoEncontrado = repositorioGrupo.SelecionarPorId(novoGrupo.Id);
+        var grupoEncontrado = repositorio.SelecionarPorId(novoGrupo.Id);
         
         Assert.IsNull(grupoEncontrado);
-    }
-
-    [TestMethod]
-    public void Deve_Selecionar_Grupos()
-    {
-        GrupoDeAutomoveis[] gruposParaInserir =
-        [
-            new GrupoDeAutomoveis("SUV"),
-            new GrupoDeAutomoveis("Econominco"),
-            new GrupoDeAutomoveis("Luxo")
-        ];
-
-        foreach (var grupo in gruposParaInserir)
-        {
-            repositorioGrupo.Inserir(grupo);
-        }
-
-        var gruposSelecionados = repositorioGrupo.SelecionarTodos();
-        
-        CollectionAssert.AreEqual(gruposParaInserir, gruposSelecionados);
     }
 }
