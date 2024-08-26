@@ -35,17 +35,17 @@ public class AutomovelTests
             0
         );
 
-        // var erros = Automovel.Validar();
-        //
-        // List<string> errosEsperados =
-        // [
-        //     "O modelo é obrigatório",
-        //     "A marca é obrigatória",
-        //     "A capacidade do tanque precisa ser informada",
-        //     "O grupo de veículos é obrigatório"
-        // ];
+        var erros = automovel.Validar();
 
-        //Assert.AreEqual(errosEsperados.Count, erros.Count);
-        //CollectionAssert.AreEqual(errosEsperados, erros);
+        List<string> errosEsperados =
+        [
+            "O modelo é obrigatório",
+            "A marca é obrigatória",
+            "A capacidade do tanque precisa ser informada",
+            "O grupo de automóveis é obrigatório"
+        ];
+
+        Assert.AreEqual(errosEsperados.Count, erros.Count);
+        CollectionAssert.AreEqual(errosEsperados, erros);
     }
 }

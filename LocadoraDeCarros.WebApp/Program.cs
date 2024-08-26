@@ -1,11 +1,14 @@
 using System.Reflection;
 using LocadoraDeCarros.Aplicação.ModuloAutomovel;
+using LocadoraDeCarros.Aplicação.ModuloPlanoCobranca;
 using LocadoraDeCarros.Aplicação.Servicos;
 using LocadoraDeCarros.Dominio.ModuloGrupoDeAutomovel;
 using LocadoraDeCarros.Dominio.ModuoAutomovel;
+using LocadoraDeCarros.Dominio.PlanoCobranca;
 using LocadoraDeCarros.Infra.Orm.Compartilhado;
 using LocadoraDeCarros.Infra.Orm.ModuloAutomovel;
 using LocadoraDeCarros.Infra.Orm.ModuloGrupoDeAutomovel;
+using LocadoraDeCarros.Infra.Orm.ModuloPlanoCobranca;
 
 namespace LocadoraDeCarros.WebApp;
     
@@ -19,9 +22,11 @@ public class Program
 
         builder.Services.AddScoped<IRepositorioGrupoDeAutomovel, RepositorioGrupoDeAutomovelEmOrm>();
         builder.Services.AddScoped<IRepositorioAutomovel, RepositorioAutomovelEmOrm>();
+        builder.Services.AddScoped<IRepositorioPlanoCobranca, RepositorioPlanoCobrancaEmOrm>();
         
         builder.Services.AddScoped<ServicoGrupoDeAutomoveis>();
         builder.Services.AddScoped<ServicoAutomovel>();
+        builder.Services.AddScoped<ServicoPlanoCobranca>();
 
         builder.Services.AddAutoMapper(cfg =>
         {

@@ -6,6 +6,7 @@ namespace LocadoraDeCarros.Dominio.ModuoAutomovel;
 public class Automovel : EntidadeBase
 {
     protected Automovel() { }
+    
     public string Modelo { get; set; }
     public string Marca { get; set; }
     public TipoCombustivel TipoCombustivel { get; set; }
