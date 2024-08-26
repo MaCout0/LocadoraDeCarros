@@ -10,39 +10,34 @@ public class MapeadorAutomoveEmOrm: IEntityTypeConfiguration<Automovel>
     {
         builder.ToTable("TBAutomovel");
 
-        builder.Property(e => e.Id)
+        builder.Property(v => v.Id)
             .HasColumnType("int")
             .ValueGeneratedOnAdd()
             .IsRequired();
 
-        builder.Property(e => e.Placa)
-            .HasColumnType("varchar(10)")
+        builder.Property(v => v.Modelo)
+            .HasColumnType("varchar(100)")
             .IsRequired();
 
-        builder.Property(e => e.Marca)
-            .HasColumnType("varchar(50)")
+        builder.Property(v => v.Marca)
+            .HasColumnType("varchar(100)")
             .IsRequired();
 
-        builder.Property(e => e.Cor)
-            .HasColumnType("varchar(30)")
-            .IsRequired();
-
-        builder.Property(e => e.Modelo)
-            .HasColumnType("varchar(50)")
-            .IsRequired();
-
-        builder.Property(e => e.TipoCombustivel)
-            .HasColumnType("varchar(20)")
-            .IsRequired();
-
-        builder.Property(e => e.Ano)
+        builder.Property(v => v.TipoCombustivel)
             .HasColumnType("int")
             .IsRequired();
 
-        builder.HasOne(e => e.Grupo)
-            .WithMany()
-            .HasForeignKey("GrupoId")
-            .IsRequired()
+        builder.Property(v => v.CapacidadeTanque)
+            .HasColumnType("int")
+            .IsRequired();
+
+        builder.Property(v => v.GrupoDeAutomoveisId)
+            .HasColumnType("int")
+            .IsRequired();
+
+        builder.HasOne(v => v.GrupoAutomoveis)
+            .WithMany(g => g.Automoveis)
+            .HasForeignKey(v => v.GrupoDeAutomoveisId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

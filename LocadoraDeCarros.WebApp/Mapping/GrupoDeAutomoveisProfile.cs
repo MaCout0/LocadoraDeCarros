@@ -8,10 +8,10 @@ public class GrupoDeAutomoveisProfile : Profile
 {
     public GrupoDeAutomoveisProfile()
     {
-        /*CreateMap<InserirGeneroViewModel, Genero>();
-        CreateMap<EditarGeneroViewModel, Genero>();
-        CreateMap<Genero, ListarGeneroViewModel>();
-        CreateMap<Genero, DetalhesGeneroViewModel>();
-        CreateMap<Genero, EditarGeneroViewModel>();*/
+        CreateMap<InserirGrupoAutomovelViewModel, GrupoDeAutomoveis>();
+        CreateMap<EditarGrupoAutomovelViewModel, GrupoDeAutomoveis>();
+        CreateMap<GrupoDeAutomoveis, ListarGrupoAutomovelViewModel>();
+        CreateMap<GrupoDeAutomoveis, DetalhesGrupoAutomovelViewModel>();
+        CreateMap<GrupoDeAutomoveis, EditarGrupoAutomovelViewModel>();
     }
 }

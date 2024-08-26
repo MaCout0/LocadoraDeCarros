@@ -12,4 +12,18 @@ public class RepositorioAutomovelEmOrm: RepositorioBaseEmOrm<Automovel>, IReposi
     {
         return _dbContext.Automoveis;
     }
+    
+    public override Automovel? SelecionarPorId(int id)
+    {
+        return ObterRegistros()
+            .Include(v => v.GrupoAutomoveis)
+            .FirstOrDefault(v => v.Id == id);
+    }
+
+    public override List<Automovel> SelecionarTodos()
+    {
+        return ObterRegistros()
+            .Include(v => v.GrupoAutomoveis)
+            .ToList();
+    }
 }
