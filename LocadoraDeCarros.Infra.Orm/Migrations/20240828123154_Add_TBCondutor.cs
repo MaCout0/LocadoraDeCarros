@@ -18,15 +18,28 @@ namespace LocadoraDeCarros.Infra.Orm.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nome = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Email = table.Column<string>(type: "varchar(100)", nullable: false),
                     CPF = table.Column<string>(type: "varchar(11)", nullable: false),
                     CNH = table.Column<string>(type: "varchar(20)", nullable: false),
                     ValidadeCNH = table.Column<DateTime>(type: "date", nullable: false),
-                    Telefone = table.Column<string>(type: "varchar(15)", nullable: false)
+                    Telefone = table.Column<string>(type: "varchar(15)", nullable: false),
+                    ClienteId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TBCondutor", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TBCondutor_TBCliente_ClienteId",
+                        column: x => x.ClienteId,
+                        principalTable: "TBCliente",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TBCondutor_ClienteId",
+                table: "TBCondutor",
+                column: "ClienteId");
         }
 
         /// <inheritdoc />

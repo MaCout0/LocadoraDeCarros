@@ -18,6 +18,10 @@ public class MapeadorCondutorEmOrm : IEntityTypeConfiguration<Condutor>
         builder.Property(e => e.Nome)
             .HasColumnType("varchar(100)")
             .IsRequired();
+        
+        builder.Property(c => c.Email)
+            .HasColumnType("varchar(100)")
+            .IsRequired();
             
         builder.Property(e => e.CPF)
             .HasColumnType("varchar(11)")
@@ -34,5 +38,14 @@ public class MapeadorCondutorEmOrm : IEntityTypeConfiguration<Condutor>
         builder.Property(e => e.Telefone)
             .HasColumnType("varchar(15)")
             .IsRequired();
+        
+        builder.Property(v => v.ClienteId)
+            .HasColumnType("int")
+            .IsRequired();
+
+        builder.HasOne(v => v.Clientes)
+            .WithMany(g => g.Condutores)
+            .HasForeignKey(v => v.ClienteId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

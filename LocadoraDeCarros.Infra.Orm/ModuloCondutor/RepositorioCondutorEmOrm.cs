@@ -13,4 +13,18 @@ public class RepositorioCondutorEmOrm : RepositorioBaseEmOrm<Condutor>, IReposit
     {
         return DbContext.Condutores;
     }
+    
+    public override Condutor? SelecionarPorId(int id)
+    {
+        return ObterRegistros()
+            .Include(v => v.Clientes)
+            .FirstOrDefault(v => v.Id == id);
+    }
+
+    public override List<Condutor> SelecionarTodos()
+    {
+        return ObterRegistros()
+            .Include(v => v.Clientes)
+            .ToList();
+    }
 }

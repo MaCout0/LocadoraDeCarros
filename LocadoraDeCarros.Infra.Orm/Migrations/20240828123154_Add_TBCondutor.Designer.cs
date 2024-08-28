@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LocadoraDeCarros.Infra.Orm.Migrations
 {
     [DbContext(typeof(LocadoraDbContext))]
-    [Migration("20240828120703_Add_TBCondutor")]
+    [Migration("20240828123154_Add_TBCondutor")]
     partial class Add_TBCondutor
     {
         /// <inheritdoc />
@@ -74,6 +74,13 @@ namespace LocadoraDeCarros.Infra.Orm.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(11)");
 
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
@@ -86,6 +93,8 @@ namespace LocadoraDeCarros.Infra.Orm.Migrations
                         .HasColumnType("date");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
 
                     b.ToTable("TBCondutor", (string)null);
                 });
@@ -202,6 +211,17 @@ namespace LocadoraDeCarros.Infra.Orm.Migrations
                     b.ToTable("TBPlanoCobranca", (string)null);
                 });
 
+            modelBuilder.Entity("LocadoraDeCarros.Dominio.ModuloCondutor.Condutor", b =>
+                {
+                    b.HasOne("LocadoraDeCarros.Dominio.ModuloCliente.Cliente", "Clientes")
+                        .WithMany("Condutores")
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Clientes");
+                });
+
             modelBuilder.Entity("LocadoraDeCarros.Dominio.ModuoAutomovel.Automovel", b =>
                 {
                     b.HasOne("LocadoraDeCarros.Dominio.ModuloGrupoDeAutomovel.GrupoDeAutomoveis", "GrupoAutomoveis")
@@ -222,6 +242,11 @@ namespace LocadoraDeCarros.Infra.Orm.Migrations
                         .IsRequired();
 
                     b.Navigation("GrupoDeAutomoveis");
+                });
+
+            modelBuilder.Entity("LocadoraDeCarros.Dominio.ModuloCliente.Cliente", b =>
+                {
+                    b.Navigation("Condutores");
                 });
 
             modelBuilder.Entity("LocadoraDeCarros.Dominio.ModuloGrupoDeAutomovel.GrupoDeAutomoveis", b =>
