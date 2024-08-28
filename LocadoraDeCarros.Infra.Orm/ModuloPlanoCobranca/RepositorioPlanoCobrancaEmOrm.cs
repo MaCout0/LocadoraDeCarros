@@ -12,7 +12,7 @@ public class RepositorioPlanoCobrancaEmOrm : RepositorioBaseEmOrm<PlanoCobranca>
 
     protected override DbSet<PlanoCobranca> ObterRegistros()
     {
-        return _dbContext.PlanosCobranca;
+        return DbContext.PlanosCobranca;
     }
 
     public override PlanoCobranca? SelecionarPorId(int id)

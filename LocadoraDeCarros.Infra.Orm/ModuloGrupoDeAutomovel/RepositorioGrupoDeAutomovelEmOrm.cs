@@ -11,6 +11,6 @@ public class RepositorioGrupoDeAutomovelEmOrm : RepositorioBaseEmOrm<GrupoDeAuto
 
     protected override DbSet<GrupoDeAutomoveis> ObterRegistros()
     {
-        return _dbContext.GrupoAutomoveis;
+        return DbContext.GrupoAutomoveis;
     }
 }

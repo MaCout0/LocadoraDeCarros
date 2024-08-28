@@ -1,8 +1,10 @@
-﻿using LocadoraDeCarros.Dominio.ModuloGrupoDeAutomovel;
+﻿using LocadoraDeCarros.Dominio.ModuloCliente;
+using LocadoraDeCarros.Dominio.ModuloGrupoDeAutomovel;
 using LocadoraDeCarros.Dominio.ModuloTaxaServico;
 using LocadoraDeCarros.Dominio.ModuoAutomovel;
 using LocadoraDeCarros.Dominio.PlanoCobranca;
 using LocadoraDeCarros.Infra.Orm.ModuloAutomovel;
+using LocadoraDeCarros.Infra.Orm.ModuloCliente;
 using LocadoraDeCarros.Infra.Orm.ModuloGrupoDeAutomovel;
 using LocadoraDeCarros.Infra.Orm.ModuloPlanoCobranca;
 using LocadoraDeCarros.Infra.Orm.ModuloTaxaServico;
@@ -17,6 +19,7 @@ public class LocadoraDbContext : DbContext
     public DbSet<Automovel> Automoveis { get; set; }
     public DbSet<PlanoCobranca> PlanosCobranca { get; set; }
     public DbSet<TaxaServico> TaxaServicos { get; set; }
+    public DbSet<Cliente> Clientes { get; set; }
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -39,6 +42,7 @@ public class LocadoraDbContext : DbContext
             modelBuilder.ApplyConfiguration(new MapeadorAutomoveEmOrm());
             modelBuilder.ApplyConfiguration(new MapeadorPlanoCobrancaEmOrm());
             modelBuilder.ApplyConfiguration(new MapeadorTaxaServicoEmOrm());
+            modelBuilder.ApplyConfiguration(new MapeadorClienteEmOrm());
             
             base.OnModelCreating(modelBuilder);
         }

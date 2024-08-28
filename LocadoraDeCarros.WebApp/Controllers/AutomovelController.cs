@@ -33,11 +33,11 @@ public class AutomovelController : WebControllerBase
             return RedirectToAction("Index", "Home");
         }
 
-        var veiculos = resultado.Value;
+        var automoveis = resultado.Value;
 
-        var listarVeiculosVm = mapeador.Map<IEnumerable<ListarAutomovelViewModel>>(veiculos);
+        var listarAutomoveisVm = mapeador.Map<IEnumerable<ListarAutomovelViewModel>>(automoveis);
 
-        return View(listarVeiculosVm);
+        return View(listarAutomoveisVm);
     }
     
     public IActionResult Inserir()

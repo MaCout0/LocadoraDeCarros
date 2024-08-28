@@ -10,7 +10,7 @@ public class RepositorioAutomovelEmOrm: RepositorioBaseEmOrm<Automovel>, IReposi
 
     protected override DbSet<Automovel> ObterRegistros()
     {
-        return _dbContext.Automoveis;
+        return DbContext.Automoveis;
     }
     
     public override Automovel? SelecionarPorId(int id)

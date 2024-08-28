@@ -12,6 +12,6 @@ public class RepositorioTaxaServicoEmOrm : RepositorioBaseEmOrm<TaxaServico>, IR
 
     protected override DbSet<TaxaServico> ObterRegistros()
     {
-        return _dbContext.TaxaServicos;
+        return DbContext.TaxaServicos;
     }
 }

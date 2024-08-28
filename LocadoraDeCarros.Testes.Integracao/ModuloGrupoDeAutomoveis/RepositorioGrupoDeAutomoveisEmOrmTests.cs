@@ -4,7 +4,7 @@ using LocadoraDeCarros.Dominio.ModuloTaxaServico;
 using LocadoraDeCarros.Infra.Orm.Compartilhado;
 using LocadoraDeCarros.Infra.Orm.ModuloGrupoDeAutomovel;
 
-namespace LocadoraDeCarros.Testes.Integracao.Orm;
+namespace LocadoraDeCarros.Testes.Integracao.ModuloGrupoDeAutomoveis;
 
 [TestClass]
 public class RepositorioGrupoDeAutomoveisEmOrmTests
