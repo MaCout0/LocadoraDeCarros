@@ -24,17 +24,4 @@ public class GrupoDeAutomoveis : EntidadeBase
 
         return erros;
     }
-    
-    #region ImplementarDepois
-    // public ICollection<Automovel> Automoveis { get; set; } 
-    //
-    // public ICollection<PlanoCobranca> PlanosCobranca { get; set; }
-    //
-    //
-    // public GrupoAutomovel()
-    // {
-    //     Automoveis = new List<Automovel>();
-    //     PlanosCobranca = new List<PlanoCobranca>();
-    // }
-    #endregion
 }
