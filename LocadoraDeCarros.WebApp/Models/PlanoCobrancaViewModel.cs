@@ -5,11 +5,11 @@ namespace LocadoraDeCarros.WebApp.Models;
 
 public class FormularioPlanoCobrancaViewModel
 {
-    [Required(ErrorMessage = "O grupo de automóveis é obrigatório")]
+    [Required(ErrorMessage = "O grupo de veículos é obrigatório")]
     public int GrupoAutomoveisId { get; set; }
 
-    [Required(ErrorMessage = "O preço do plano diário é obrigatório")]
-    [Range(0.01, double.MaxValue, ErrorMessage = "O preço do plano diário deve ser maior que 0")]
+    [Required(ErrorMessage = "O preço diário do plano diário é obrigatório")]
+    [Range(0.01, double.MaxValue, ErrorMessage = "O preço diário do plano diário deve ser maior que 0")]
     public decimal PrecoDiarioPlanoDiario { get; set; }
 
     [Required(ErrorMessage = "O preço por quilômetro do plano diário é obrigatório")]
@@ -32,7 +32,7 @@ public class FormularioPlanoCobrancaViewModel
     [Range(0.01, double.MaxValue, ErrorMessage = "O preço diário do plano livre deve ser maior que 0")]
     public decimal PrecoDiarioPlanoLivre { get; set; }
 
-    public IEnumerable<SelectListItem>? GruposDeAutomoeis { get; set; }
+    public IEnumerable<SelectListItem>? GrupoAutomoveis { get; set; }
 }
 
 public class InserirPlanoCobrancaViewModel : FormularioPlanoCobrancaViewModel

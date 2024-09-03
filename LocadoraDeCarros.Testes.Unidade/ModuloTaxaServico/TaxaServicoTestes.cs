@@ -4,43 +4,82 @@ namespace LocadoraDeCarros.Testes.Integração.ModuloTaxaServico;
 
 [TestClass]
 [TestCategory("Unidade")]
-public class TaxaServicoTestes
+public class TaxaTests
 {
     [TestMethod]
     public void Deve_Criar_Instancia_Valida()
     {
-        var taxaServico = new TaxaServico
+        var taxa = new TaxaServico
         (
-            "Taxa de Limpeza",
-            "Cobrança pela limpeza do veículo",
-            50.00m,
-            TipoDeCobranca.Fixo
+            "Taxa de Serviço",
+            10.0m,
+            TipoCobrancaEnum.Diaria
         );
 
-        var erros = taxaServico.Validar();
+        var erros = taxa.Validar();
 
         Assert.AreEqual(0, erros.Count);
     }
 
     [TestMethod]
-    public void Deve_Criar_Instancia_Com_Erro()
+    public void Deve_Criar_Instancia_Com_Erro_Nome()
     {
-        var taxaServico = new TaxaServico
+        var taxa = new TaxaServico
         (
-            "",
-            "",
-            0,
-            TipoDeCobranca.Fixo
+            "Tx",
+            10.0m,
+            TipoCobrancaEnum.Diaria
         );
 
-        var erros = taxaServico.Validar();
+        var erros = taxa.Validar();
 
-        List<string> errosEsperados = new List<string>
-        {
-            "O nome é obrigatório",
-            "A descrição é obrigatória",
-            "O valor deve ser maior que zero"
-        };
+        List<string> errosEsperados =
+        [
+            "O nome precisa conter ao menos 3 caracteres"
+        ];
+
+        Assert.AreEqual(errosEsperados.Count, erros.Count);
+        CollectionAssert.AreEqual(errosEsperados, erros);
+    }
+
+    [TestMethod]
+    public void Deve_Criar_Instancia_Com_Erro_Valor()
+    {
+        var taxa = new TaxaServico
+        (
+            "Taxa de Serviço",
+            0.5m,
+            TipoCobrancaEnum.Diaria
+        );
+
+        var erros = taxa.Validar();
+
+        List<string> errosEsperados =
+        [
+            "O valor precisa ser ao menos 1"
+        ];
+
+        Assert.AreEqual(errosEsperados.Count, erros.Count);
+        CollectionAssert.AreEqual(errosEsperados, erros);
+    }
+
+    [TestMethod]
+    public void Deve_Criar_Instancia_Com_Erros_Nome_Valor()
+    {
+        var taxa = new TaxaServico
+        (
+            "Tx",
+            0.5m,
+            TipoCobrancaEnum.Diaria
+        );
+
+        var erros = taxa.Validar();
+
+        List<string> errosEsperados =
+        [
+            "O nome precisa conter ao menos 3 caracteres",
+            "O valor precisa ser ao menos 1"
+        ];
 
         Assert.AreEqual(errosEsperados.Count, erros.Count);
         CollectionAssert.AreEqual(errosEsperados, erros);

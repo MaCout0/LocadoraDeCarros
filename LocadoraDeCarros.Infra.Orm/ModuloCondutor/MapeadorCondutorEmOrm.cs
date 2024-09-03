@@ -9,43 +9,47 @@ public class MapeadorCondutorEmOrm : IEntityTypeConfiguration<Condutor>
     public void Configure(EntityTypeBuilder<Condutor> builder)
     {
         builder.ToTable("TBCondutor");
-            
-        builder.Property(e => e.Id)
+
+        builder.Property(c => c.Id)
             .HasColumnType("int")
             .ValueGeneratedOnAdd()
             .IsRequired();
-            
-        builder.Property(e => e.Nome)
+
+        builder.Property(c => c.Nome)
             .HasColumnType("varchar(100)")
             .IsRequired();
-        
+
         builder.Property(c => c.Email)
             .HasColumnType("varchar(100)")
             .IsRequired();
-            
-        builder.Property(e => e.CPF)
-            .HasColumnType("varchar(11)")
-            .IsRequired();
-            
-        builder.Property(e => e.CNH)
+
+        builder.Property(c => c.Telefone)
             .HasColumnType("varchar(20)")
             .IsRequired();
-            
-        builder.Property(e => e.ValidadeCNH)
-            .HasColumnType("date")
+
+        builder.Property(c => c.CPF)
+            .HasColumnType("varchar(20)")
             .IsRequired();
-            
-        builder.Property(e => e.Telefone)
-            .HasColumnType("varchar(15)")
+
+        builder.Property(c => c.CNH)
+            .HasColumnType("varchar(20)")
             .IsRequired();
-        
-        builder.Property(v => v.ClienteId)
+
+        builder.Property(c => c.ValidadeCNH)
+            .HasColumnType("datetime2")
+            .IsRequired();
+
+        builder.Property(c => c.ClienteCondutor)
+            .HasColumnType("bit")
+            .IsRequired();
+
+        builder.Property(c => c.ClienteId)
             .HasColumnType("int")
             .IsRequired();
 
-        builder.HasOne(v => v.Clientes)
-            .WithMany(g => g.Condutores)
-            .HasForeignKey(v => v.ClienteId)
+        builder.HasOne(c => c.Cliente)
+            .WithMany(cl => cl.Condutores)
+            .HasForeignKey(c => c.ClienteId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

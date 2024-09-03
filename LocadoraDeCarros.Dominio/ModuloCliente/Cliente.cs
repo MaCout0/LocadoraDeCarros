@@ -1,4 +1,5 @@
-﻿using LocadoraDeCarros.Dominio.Compartilhado;
+﻿using System.Net.Mail;
+using LocadoraDeCarros.Dominio.Compartilhado;
 using LocadoraDeCarros.Dominio.ModuloCondutor;
 
 namespace LocadoraDeCarros.Dominio.ModuloCliente;
@@ -6,42 +7,84 @@ namespace LocadoraDeCarros.Dominio.ModuloCliente;
 public class Cliente : EntidadeBase
 {
     public string Nome { get; set; }
-    public string CPF { get; set; }
-    public string Endereco { get; set; }
-    public string Telefone { get; set; }
     public string Email { get; set; }
-    
-    public List<Condutor> Condutores { get; set; } = [];
+    public string Telefone { get; set; }
 
-    protected Cliente() { }
+    public TipoCadastroClienteEnum TipoCadastro { get; set; }
+    public string NumeroDocumento { get; set; }
 
-    public Cliente(string nome, string cpf, string endereco, string telefone, string email)
+    public string Cidade { get; set; }
+    public string Estado { get; set; }
+    public string Bairro { get; set; }
+    public string Rua { get; set; }
+    public string Numero { get; set; }
+    public List<Condutor>? Condutores { get; set; }
+
+    protected Cliente()
+    {
+        Condutores = [];
+    }
+
+    public Cliente(
+        string nome,
+        string email,
+        string telefone,
+        TipoCadastroClienteEnum tipoCadastro,
+        string numeroDocumento,
+        string cidade,
+        string estado,
+        string bairro,
+        string rua,
+        string numero
+    ) : this()
     {
         Nome = nome;
-        CPF = cpf;
-        Endereco = endereco;
-        Telefone = telefone;
         Email = email;
+        Telefone = telefone;
+
+        TipoCadastro = tipoCadastro;
+        NumeroDocumento = numeroDocumento;
+
+        Cidade = cidade;
+        Estado = estado;
+        Bairro = bairro;
+        Rua = rua;
+        Numero = numero;
     }
 
     public override List<string> Validar()
     {
-        List<string> erros = new();
+        List<string> erros = [];
 
-        if (string.IsNullOrEmpty(Nome))
+        if (string.IsNullOrWhiteSpace(Nome))
             erros.Add("O nome é obrigatório");
 
-        if (string.IsNullOrEmpty(CPF) || CPF.Length != 11)
-            erros.Add("O CPF é obrigatório e deve conter 11 dígitos");
+        if (string.IsNullOrWhiteSpace(Email))
+            erros.Add("O email é obrigatório");
 
-        if (string.IsNullOrEmpty(Endereco))
-            erros.Add("O endereço é obrigatório");
+        else if (MailAddress.TryCreate(Email, out _) is false)
+            erros.Add("O email deve seguir um padrão válido");
 
-        if (string.IsNullOrEmpty(Telefone))
+        if (string.IsNullOrWhiteSpace(Telefone))
             erros.Add("O telefone é obrigatório");
 
-        if (string.IsNullOrEmpty(Email))
-            erros.Add("O email é obrigatório");
+        if (string.IsNullOrWhiteSpace(NumeroDocumento))
+            erros.Add("O número do documento é obrigatório");
+
+        if (string.IsNullOrWhiteSpace(Cidade))
+            erros.Add("A cidade é obrigatória");
+
+        if (string.IsNullOrWhiteSpace(Estado))
+            erros.Add("O estado é obrigatório");
+
+        if (string.IsNullOrWhiteSpace(Bairro))
+            erros.Add("O bairro é obrigatório");
+
+        if (string.IsNullOrWhiteSpace(Rua))
+            erros.Add("A rua é obrigatória");
+
+        if (string.IsNullOrWhiteSpace(Numero))
+            erros.Add("O número é obrigatório");
 
         return erros;
     }

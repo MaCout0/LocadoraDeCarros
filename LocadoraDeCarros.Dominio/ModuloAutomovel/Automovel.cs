@@ -11,6 +11,7 @@ public class Automovel : EntidadeBase
     public string Marca { get; set; }
     public TipoCombustivel TipoCombustivel { get; set; }
     public int CapacidadeTanque { get; set; }
+    public byte[] Foto { get; set; }
     public int GrupoDeAutomoveisId { get; set; }
     public GrupoDeAutomoveis? GrupoAutomoveis { get; set; }
     

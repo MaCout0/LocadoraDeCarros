@@ -6,63 +6,72 @@ namespace LocadoraDeCarros.Aplicação.ModuloTaxaServico;
 
 public class ServicoTaxaServico
 {
-    private readonly IRepositorioTaxaServico repositorioTaxaServico;
+    private readonly IRepositorioTaxaServico repositorioTaxa;
 
-    public ServicoTaxaServico(IRepositorioTaxaServico repositorioTaxaServico)
+    public ServicoTaxaServico(IRepositorioTaxaServico repositorioTaxa)
     {
-        this.repositorioTaxaServico = repositorioTaxaServico;
+        this.repositorioTaxa = repositorioTaxa;
     }
 
-    public Result<TaxaServico> Inserir(TaxaServico taxaServico)
+    public Result<TaxaServico> Inserir(TaxaServico taxa)
     {
-        repositorioTaxaServico.Inserir(taxaServico);
+        var errosValidacao = taxa.Validar();
 
-        return Result.Ok(taxaServico);
+        if (errosValidacao.Count > 0)
+            return Result.Fail(errosValidacao);
+
+        repositorioTaxa.Inserir(taxa);
+
+        return Result.Ok(taxa);
     }
 
-    public Result<TaxaServico> Editar(TaxaServico taxaServicoAtualizado)
+    public Result<TaxaServico> Editar(TaxaServico taxaAtualizada)
     {
-        var taxaServico = repositorioTaxaServico.SelecionarPorId(taxaServicoAtualizado.Id);
+        var taxa = repositorioTaxa.SelecionarPorId(taxaAtualizada.Id);
 
-        if (taxaServico is null)
-            return Result.Fail("O plano de cobrança não foi encontrado!");
+        if (taxa is null)
+            return Result.Fail("A taxa não foi encontrada!");
 
-        taxaServico.Nome = taxaServicoAtualizado.Nome;
-        taxaServico.Descricao = taxaServicoAtualizado.Descricao;
-        taxaServico.Valor = taxaServicoAtualizado.Valor;
-        taxaServico.TipoDeCobranca = taxaServicoAtualizado.TipoDeCobranca;
+        var errosValidacao = taxaAtualizada.Validar();
 
-        repositorioTaxaServico.Editar(taxaServico);
+        if (errosValidacao.Count > 0)
+            return Result.Fail(errosValidacao);
 
-        return Result.Ok(taxaServico);
+        taxa.Nome = taxaAtualizada.Nome;
+        taxa.Valor = taxaAtualizada.Valor;
+        taxa.TipoCobranca = taxaAtualizada.TipoCobranca;
+
+        repositorioTaxa.Editar(taxa);
+
+        return Result.Ok(taxa);
     }
 
-    public Result<TaxaServico> Excluir(int taxaServicoId)
+    public Result<TaxaServico> Excluir(int taxaId)
     {
-        var taxaServico = repositorioTaxaServico.SelecionarPorId(taxaServicoId);
+        var taxa = repositorioTaxa.SelecionarPorId(taxaId);
 
-        if (taxaServico is null)
-            return Result.Fail("O plano de cobrança não foi encontrado!");
+        if (taxa is null)
+            return Result.Fail("A taxa não foi encontrada!");
 
-        repositorioTaxaServico.Excluir(taxaServico);
+        repositorioTaxa.Excluir(taxa);
 
-        return Result.Ok(taxaServico);
+        return Result.Ok(taxa);
     }
 
-    public Result<TaxaServico> SelecionarPorId(int taxaServicoId)
+    public Result<TaxaServico> SelecionarPorId(int taxaId)
     {
-        var taxaServico = repositorioTaxaServico.SelecionarPorId(taxaServicoId);
+        var taxa = repositorioTaxa.SelecionarPorId(taxaId);
 
-        if (taxaServico is null)
-            return Result.Fail("O plano de cobrança não foi encontrado!");
+        if (taxa is null)
+            return Result.Fail("A taxa não foi encontrada!");
 
-        return Result.Ok(taxaServico);
+        return Result.Ok(taxa);
     }
 
     public Result<List<TaxaServico>> SelecionarTodos()
     {
-        var taxaServicos = repositorioTaxaServico.SelecionarTodos();
+        var taxas = repositorioTaxa.SelecionarTodos();
 
-        return Result.Ok(taxaServicos);
+        return Result.Ok(taxas);
     }
 }

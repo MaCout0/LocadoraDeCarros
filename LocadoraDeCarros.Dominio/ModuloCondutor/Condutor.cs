@@ -1,54 +1,60 @@
-﻿using LocadoraDeCarros.Dominio.Compartilhado;
+﻿using System.Net.Mail;
+using LocadoraDeCarros.Dominio.Compartilhado;
 using LocadoraDeCarros.Dominio.ModuloCliente;
 
-namespace LocadoraDeCarros.Dominio.ModuloCondutor
+namespace LocadoraDeCarros.Dominio.ModuloCondutor;
+public class Condutor : EntidadeBase
 {
-    public class Condutor : EntidadeBase
+    public int ClienteId { get; set; }
+    public Cliente? Cliente { get; set; }
+    public bool ClienteCondutor { get; set; }
+
+    public string Nome { get; set; }
+    public string Email { get; set; }
+    public string Telefone { get; set; }
+    public string CPF { get; set; }
+    public string CNH { get; set; }
+    public DateTime ValidadeCNH { get; set; }
+
+    protected Condutor() { }
+
+    public Condutor(int clienteId, bool clienteCondutor, string nome, string email, string telefone, string cpf, string cnh, DateTime validadeCnh) : this()
     {
-        protected Condutor() { }
+        ClienteId = clienteId;
+        ClienteCondutor = clienteCondutor;
+        Nome = nome;
+        Email = email;
+        Telefone = telefone;
+        CPF = cpf;
+        CNH = cnh;
+        ValidadeCNH = validadeCnh;
+    }
 
-        public Condutor(string nome, string email, string cpf, string cnh, DateTime validadeCNH, string telefone)
-        {
-            Nome = nome;
-            Email = email;
-            CPF = cpf;
-            CNH = cnh;
-            ValidadeCNH = validadeCNH;
-            Telefone = telefone;
-        }
+    public override List<string> Validar()
+    {
+        List<string> erros = [];
 
-        public string Nome { get; set; }
-        public string Email { get; set; }
-        public string CPF { get; set; }
-        public string CNH { get; set; }
-        public DateTime ValidadeCNH { get; set; }
-        public string Telefone { get; set; }
-        public int ClienteId { get; set; }
-        public Cliente Clientes { get; set; }
+        if (string.IsNullOrWhiteSpace(Nome))
+            erros.Add("O nome é obrigatório");
 
-        public override List<string> Validar()
-        {
-            List<string> erros = new();
+        if (string.IsNullOrWhiteSpace(Email))
+            erros.Add("O email é obrigatório");
 
-            if (string.IsNullOrEmpty(Nome))
-                erros.Add("O nome é obrigatório");
-            
-            if (string.IsNullOrEmpty(Email))
-                erros.Add("O email é obrigatório");
+        else if (MailAddress.TryCreate(Email, out _) is false)
+            erros.Add("O email deve seguir um padrão válido");
 
-            if (string.IsNullOrEmpty(CPF) || CPF.Length != 11)
-                erros.Add("O CPF é obrigatório e deve conter 11 dígitos");
+        if (string.IsNullOrWhiteSpace(Telefone))
+            erros.Add("O telefone é obrigatório");
 
-            if (string.IsNullOrEmpty(CNH))
-                erros.Add("A CNH é obrigatória");
+        if (string.IsNullOrWhiteSpace(CPF))
+            erros.Add("O número do CPF é obrigatório");
 
-            if (ValidadeCNH <= DateTime.Now)
-                erros.Add("A CNH deve estar válida");
+        if (string.IsNullOrWhiteSpace(CNH))
+            erros.Add("O número da CNH é obrigatório");
 
-            if (string.IsNullOrEmpty(Telefone))
-                erros.Add("O telefone é obrigatório");
+        if (ValidadeCNH < DateTime.Today)
+            erros.Add("A CNH está vencida");
 
-            return erros;
-        }
+        return erros;
     }
 }

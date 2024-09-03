@@ -8,7 +8,7 @@ public class MapeadorTaxaServicoEmOrm: IEntityTypeConfiguration<TaxaServico>
 {
     public void Configure(EntityTypeBuilder<TaxaServico> builder)
     {
-        builder.ToTable("TBTaxaServico");
+        builder.ToTable("TBTaxa");
 
         builder.Property(t => t.Id)
             .HasColumnType("int")
@@ -16,18 +16,14 @@ public class MapeadorTaxaServicoEmOrm: IEntityTypeConfiguration<TaxaServico>
             .IsRequired();
 
         builder.Property(t => t.Nome)
-            .HasColumnType("varchar(100)")
-            .IsRequired();
-
-        builder.Property(t => t.Descricao)
-            .HasColumnType("varchar(250)")
+            .HasColumnType("varchar(200)")
             .IsRequired();
 
         builder.Property(t => t.Valor)
             .HasColumnType("decimal(18,2)")
             .IsRequired();
 
-        builder.Property(t => t.TipoDeCobranca)
+        builder.Property(t => t.TipoCobranca)
             .HasColumnType("int")
             .IsRequired();
     }

@@ -10,16 +10,17 @@ public class TaxaServicoProfile : Profile
     {
         CreateMap<InserirTaxaServicoViewModel, TaxaServico>();
         CreateMap<EditarTaxaServicoViewModel, TaxaServico>();
+
         CreateMap<TaxaServico, ListarTaxaServicoViewModel>()
             .ForMember(
-                dest => dest.TipoDeCobranca,
-                opt => opt.MapFrom(x => x.TipoDeCobranca.ToString())
+                dest => dest.TipoCobranca,
+                opt => opt.MapFrom(x => x.TipoCobranca.ToString())
             );
 
         CreateMap<TaxaServico, DetalhesTaxaServicoViewModel>()
             .ForMember(
-                dest => dest.TipoDeCobranca,
-                opt => opt.MapFrom(x => x.TipoDeCobranca.ToString())
+                dest => dest.TipoCobranca,
+                opt => opt.MapFrom(x => x.TipoCobranca.ToString())
             );
 
         CreateMap<TaxaServico, EditarTaxaServicoViewModel>();

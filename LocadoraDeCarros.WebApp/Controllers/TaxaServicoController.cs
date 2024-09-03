@@ -33,16 +33,16 @@ public class TaxaServicoController : WebControllerBase
 
         var taxas = resultado.Value;
 
-        var listarTaxasVM = mapeador.Map<IEnumerable<ListarTaxaServicoViewModel>>(taxas);
-        
-        return View(listarTaxasVM);
+        var listarTaxasVm = mapeador.Map<IEnumerable<ListarTaxaServicoViewModel>>(taxas);
+
+        return View(listarTaxasVm);
     }
-    
+
     public IActionResult Inserir()
     {
-        return View();
+        return View(new InserirTaxaServicoViewModel());
     }
-    
+
     [HttpPost]
     public IActionResult Inserir(InserirTaxaServicoViewModel inserirVm)
     {
@@ -132,7 +132,7 @@ public class TaxaServicoController : WebControllerBase
         {
             ApresentarMensagemFalha(resultado.ToResult());
 
-            return RedirectToAction(nameof(Listar));
+            return View(detalhesVm);
         }
 
         ApresentarMensagemSucesso($"O registro ID [{detalhesVm.Id}] foi excluído com sucesso!");
@@ -147,7 +147,6 @@ public class TaxaServicoController : WebControllerBase
         if (resultado.IsFailed)
         {
             ApresentarMensagemFalha(resultado.ToResult());
-
             return RedirectToAction(nameof(Listar));
         }
 

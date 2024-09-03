@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using LocadoraDeCarros.Dominio.ModuloCliente;
 
 namespace LocadoraDeCarros.WebApp.Models;
 
@@ -8,24 +9,40 @@ public class FormularioClienteViewModel
     [MinLength(3, ErrorMessage = "O nome deve conter ao menos 3 caracteres")]
     public string Nome { get; set; }
 
-    [Required(ErrorMessage = "O CPF é obrigatório")]
-    [RegularExpression(@"\d{11}", ErrorMessage = "O CPF deve conter exatamente 11 dígitos")]
-    public string CPF { get; set; }
-
-    [Required(ErrorMessage = "O endereço é obrigatório")]
-    [MinLength(5, ErrorMessage = "O endereço deve conter ao menos 5 caracteres")]
-    public string Endereco { get; set; }
+    [Required(ErrorMessage = "O email é obrigatório")]
+    [EmailAddress(ErrorMessage = "O email deve ser válido")]
+    public string Email { get; set; }
 
     [Required(ErrorMessage = "O telefone é obrigatório")]
     [Phone(ErrorMessage = "O telefone deve ser válido")]
     public string Telefone { get; set; }
 
-    [Required(ErrorMessage = "O email é obrigatório")]
-    [EmailAddress(ErrorMessage = "O email deve ser válido")]
-    public string Email { get; set; }
+    [Required(ErrorMessage = "O tipo de cadastro é obrigatório")]
+    public TipoCadastroClienteEnum TipoCadastro { get; set; }
+
+    [Required(ErrorMessage = "O número do documento é obrigatório")]
+    [MinLength(11, ErrorMessage = "O número do documento deve conter ao menos 11 caracteres")]
+    public string NumeroDocumento { get; set; }
+
+    [Required(ErrorMessage = "A cidade é obrigatória")]
+    public string Cidade { get; set; }
+
+    [Required(ErrorMessage = "O estado é obrigatório")]
+    public string Estado { get; set; }
+
+    [Required(ErrorMessage = "O bairro é obrigatório")]
+    public string Bairro { get; set; }
+
+    [Required(ErrorMessage = "A rua é obrigatória")]
+    public string Rua { get; set; }
+
+    [Required(ErrorMessage = "O número é obrigatório")]
+    public string Numero { get; set; }
 }
 
-public class InserirClienteViewModel : FormularioClienteViewModel { }
+public class InserirClienteViewModel : FormularioClienteViewModel
+{
+}
 
 public class EditarClienteViewModel : FormularioClienteViewModel
 {
@@ -35,19 +52,35 @@ public class EditarClienteViewModel : FormularioClienteViewModel
 public class ListarClienteViewModel
 {
     public int Id { get; set; }
+
     public string Nome { get; set; }
-    public string CPF { get; set; }
-    public string Endereco { get; set; }
-    public string Telefone { get; set; }
     public string Email { get; set; }
+    public string Telefone { get; set; }
+
+    public string TipoCadastro { get; set; }
+    public string NumeroDocumento { get; set; }
+
+    public string Cidade { get; set; }
+    public string Estado { get; set; }
+    public string Bairro { get; set; }
+    public string Rua { get; set; }
+    public string Numero { get; set; }
 }
 
 public class DetalhesClienteViewModel
 {
     public int Id { get; set; }
+
     public string Nome { get; set; }
-    public string CPF { get; set; }
-    public string Endereco { get; set; }
-    public string Telefone { get; set; }
     public string Email { get; set; }
+    public string Telefone { get; set; }
+
+    public string TipoCadastro { get; set; }
+    public string NumeroDocumento { get; set; }
+
+    public string Cidade { get; set; }
+    public string Estado { get; set; }
+    public string Bairro { get; set; }
+    public string Rua { get; set; }
+    public string Numero { get; set; }
 }

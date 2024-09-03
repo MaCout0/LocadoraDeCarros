@@ -30,25 +30,44 @@ namespace LocadoraDeCarros.Infra.Orm.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CPF")
+                    b.Property<string>("Bairro")
                         .IsRequired()
-                        .HasColumnType("varchar(14)");
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Cidade")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
 
-                    b.Property<string>("Endereco")
+                    b.Property<string>("Estado")
                         .IsRequired()
-                        .HasColumnType("varchar(200)");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Numero")
+                        .IsRequired()
+                        .HasColumnType("varchar(10)");
+
+                    b.Property<string>("NumeroDocumento")
+                        .IsRequired()
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<string>("Rua")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("Telefone")
                         .IsRequired()
                         .HasColumnType("varchar(15)");
+
+                    b.Property<int>("TipoCadastro")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -69,7 +88,10 @@ namespace LocadoraDeCarros.Infra.Orm.Migrations
 
                     b.Property<string>("CPF")
                         .IsRequired()
-                        .HasColumnType("varchar(11)");
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<bool>("ClienteCondutor")
+                        .HasColumnType("bit");
 
                     b.Property<int>("ClienteId")
                         .HasColumnType("int");
@@ -84,10 +106,10 @@ namespace LocadoraDeCarros.Infra.Orm.Migrations
 
                     b.Property<string>("Telefone")
                         .IsRequired()
-                        .HasColumnType("varchar(15)");
+                        .HasColumnType("varchar(20)");
 
                     b.Property<DateTime>("ValidadeCNH")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -121,15 +143,11 @@ namespace LocadoraDeCarros.Infra.Orm.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Descricao")
-                        .IsRequired()
-                        .HasColumnType("varchar(250)");
-
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("varchar(200)");
 
-                    b.Property<int>("TipoDeCobranca")
+                    b.Property<int>("TipoCobranca")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Valor")
@@ -137,7 +155,7 @@ namespace LocadoraDeCarros.Infra.Orm.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TBTaxaServico", (string)null);
+                    b.ToTable("TBTaxa", (string)null);
                 });
 
             modelBuilder.Entity("LocadoraDeCarros.Dominio.ModuoAutomovel.Automovel", b =>
@@ -150,6 +168,12 @@ namespace LocadoraDeCarros.Infra.Orm.Migrations
 
                     b.Property<int>("CapacidadeTanque")
                         .HasColumnType("int");
+
+                    b.Property<byte[]>("Foto")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("varbinary(max)")
+                        .HasDefaultValue(new byte[0]);
 
                     b.Property<int>("GrupoDeAutomoveisId")
                         .HasColumnType("int");
@@ -210,13 +234,13 @@ namespace LocadoraDeCarros.Infra.Orm.Migrations
 
             modelBuilder.Entity("LocadoraDeCarros.Dominio.ModuloCondutor.Condutor", b =>
                 {
-                    b.HasOne("LocadoraDeCarros.Dominio.ModuloCliente.Cliente", "Clientes")
+                    b.HasOne("LocadoraDeCarros.Dominio.ModuloCliente.Cliente", "Cliente")
                         .WithMany("Condutores")
                         .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Clientes");
+                    b.Navigation("Cliente");
                 });
 
             modelBuilder.Entity("LocadoraDeCarros.Dominio.ModuoAutomovel.Automovel", b =>

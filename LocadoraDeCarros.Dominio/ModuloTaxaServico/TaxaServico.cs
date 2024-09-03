@@ -4,36 +4,28 @@ namespace LocadoraDeCarros.Dominio.ModuloTaxaServico;
 
 public class TaxaServico : EntidadeBase
 {
-    public TaxaServico() {}
-    
     public string Nome { get; set; }
-    public string Descricao { get; set; }
     public decimal Valor { get; set; }
-    public TipoDeCobranca TipoDeCobranca { get; set; }
+    public TipoCobrancaEnum TipoCobranca { get; set; }
 
-    public TaxaServico(string nome, string descricao, decimal valor, TipoDeCobranca tipoDeCobranca)
+    protected TaxaServico() { }
+
+    public TaxaServico(string nome, decimal valor, TipoCobrancaEnum tipoCobranca) : this()
     {
         Nome = nome;
-        Descricao = descricao;
         Valor = valor;
-        TipoDeCobranca = tipoDeCobranca;
+        TipoCobranca = tipoCobranca;
     }
 
     public override List<string> Validar()
     {
-        List<string> erros = new List<string>();
+        List<string> erros = [];
 
-        if (string.IsNullOrEmpty(Nome))
-            erros.Add("O nome é obrigatório");
+        if (Nome.Length < 3)
+            erros.Add("O nome precisa conter ao menos 3 caracteres");
 
-        if (string.IsNullOrEmpty(Descricao))
-            erros.Add("A descrição é obrigatória");
-
-        if (Valor <= 0)
-            erros.Add("O valor deve ser maior que zero");
-
-        if (TipoDeCobranca == null)
-            erros.Add("O tipo de cobrança é obrigatório");
+        if (Valor < 1.0m)
+            erros.Add("O valor precisa ser ao menos 1");
 
         return erros;
     }

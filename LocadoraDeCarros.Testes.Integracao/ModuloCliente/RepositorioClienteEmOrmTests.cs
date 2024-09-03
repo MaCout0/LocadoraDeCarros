@@ -1,67 +1,63 @@
-﻿using LocadoraDeCarros.Dominio.ModuloCliente;
-using LocadoraDeCarros.Infra.Orm.Compartilhado;
-using LocadoraDeCarros.Infra.Orm.ModuloCliente;
+﻿using FizzWare.NBuilder;
+using LocadoraDeCarros.Dominio.ModuloCliente;
+using LocadoraDeCarros.Tests.Compartilhado;
 
 namespace LocadoraDeCarros.Tests.ModuloCliente;
 
 [TestClass]
-public class RepositorioClienteEmOrmTests
+[TestCategory("Integração")]
+public class RepositorioClienteEmOrmTestes : RepositorioEmOrmTestesBase
 {
-    private LocadoraDbContext db;
-    private RepositorioClienteEmOrm repositorio;
-
-    [TestInitialize]
-    public void ConfigurarTestes()
-    {
-        db = new LocadoraDbContext();
-
-        db.Clientes.RemoveRange(db.Clientes);
-
-        db.SaveChanges();
-
-        repositorio = new RepositorioClienteEmOrm(db);
-    }
-
     [TestMethod]
     public void Deve_Inserir_Cliente()
     {
-        var novoCliente = new Cliente("João da Silva", "12345678900m", "Rua Exemplo, 123", "11999999999", "joao@gmail.co");
+        var cliente = Builder<Cliente>
+            .CreateNew()
+            .With(c => c.Id = 0)
+            .Build();
 
-        repositorio.Inserir(novoCliente);
+        repositorioCliente.Inserir(cliente);
 
-        var clienteEncontrado = repositorio.SelecionarPorId(novoCliente.Id);
+        var clienteSelecionado = repositorioCliente.SelecionarPorId(cliente.Id);
 
-        Assert.IsNotNull(clienteEncontrado);
-        Assert.AreEqual(novoCliente, clienteEncontrado);
+        Assert.IsNotNull(clienteSelecionado);
+        Assert.AreEqual(cliente, clienteSelecionado);
     }
-    
+
     [TestMethod]
     public void Deve_Editar_Cliente()
     {
-        var novoCliente = new Cliente("João da Silva", "123.456.789-00", "Rua Exemplo, 123", "11999999999", "joao@example.com");
-        repositorio.Inserir(novoCliente);
+        var cliente = Builder<Cliente>
+            .CreateNew()
+            .With(c => c.Id = 0)
+            .Persist();
 
-        novoCliente.Nome = "João de Souza";
-        novoCliente.Endereco = "Rua Nova, 456";
-        
-        repositorio.Editar(novoCliente);
+        cliente.Nome = "Nome Atualizado";
+        cliente.Email = "novoemail@dominio.com";
 
-        var clienteEncontrado = repositorio.SelecionarPorId(novoCliente.Id);
-        
-        Assert.IsNotNull(clienteEncontrado);
-        Assert.AreEqual(novoCliente, clienteEncontrado);
+        repositorioCliente.Editar(cliente);
+
+        var clienteSelecionado = repositorioCliente.SelecionarPorId(cliente.Id);
+
+        Assert.IsNotNull(clienteSelecionado);
+        Assert.AreEqual(cliente, clienteSelecionado);
     }
 
     [TestMethod]
     public void Deve_Excluir_Cliente()
     {
-        var novoCliente = new Cliente("João da Silva", "123.456.789-00", "Rua Exemplo, 123", "11999999999", "joao@example.com");
-        repositorio.Inserir(novoCliente);
-        
-        repositorio.Excluir(novoCliente);
+        var cliente = Builder<Cliente>
+            .CreateNew()
+            .With(c => c.Id = 0)
+            .Persist();
 
-        var clienteEncontrado = repositorio.SelecionarPorId(novoCliente.Id);
-        
-        Assert.IsNull(clienteEncontrado);
+        repositorioCliente.Excluir(cliente);
+
+        var clienteSelecionado = repositorioCliente.SelecionarPorId(cliente.Id);
+
+        var clientes = repositorioCliente.SelecionarTodos();
+
+        Assert.IsNull(clienteSelecionado);
+        Assert.AreEqual(0, clientes.Count);
     }
 }

@@ -14,14 +14,18 @@ public class AutomovelController : WebControllerBase
     private readonly ServicoAutomovel servico;
     private readonly ServicoGrupoDeAutomoveis servicoGrupos;
     private readonly IMapper mapeador;
-    
-    public AutomovelController(ServicoAutomovel servico, ServicoGrupoDeAutomoveis servicoGrupos, IMapper mapeador)
+
+    public AutomovelController(
+        ServicoAutomovel servico,
+        ServicoGrupoDeAutomoveis servicoGrupos,
+        IMapper mapeador
+    )
     {
         this.servico = servico;
         this.servicoGrupos = servicoGrupos;
         this.mapeador = mapeador;
     }
-    
+
     public IActionResult Listar()
     {
         var resultado = servico.SelecionarTodos();
@@ -33,13 +37,13 @@ public class AutomovelController : WebControllerBase
             return RedirectToAction("Index", "Home");
         }
 
-        var automoveis = resultado.Value;
+        var veiculos = resultado.Value;
 
-        var listarAutomoveisVm = mapeador.Map<IEnumerable<ListarAutomovelViewModel>>(automoveis);
+        var listarVeiculosVm = mapeador.Map<IEnumerable<ListarAutomovelViewModel>>(veiculos);
 
-        return View(listarAutomoveisVm);
+        return View(listarVeiculosVm);
     }
-    
+
     public IActionResult Inserir()
     {
         return View(CarregarDadosFormulario());
@@ -51,10 +55,9 @@ public class AutomovelController : WebControllerBase
         if (!ModelState.IsValid)
             return View(CarregarDadosFormulario(inserirVm));
 
-        var automovel = mapeador.Map<Automovel>(inserirVm);
+        var veiculo = mapeador.Map<Automovel>(inserirVm);
 
-        var resultado = servico.Inserir(automovel);
-
+        var resultado = servico.Inserir(veiculo);
 
         if (resultado.IsFailed)
         {
@@ -63,11 +66,11 @@ public class AutomovelController : WebControllerBase
             return RedirectToAction(nameof(Listar));
         }
 
-        ApresentarMensagemSucesso($"O registro ID [{automovel.Id}] foi inserido com sucesso!");
+        ApresentarMensagemSucesso($"O registro ID [{veiculo.Id}] foi inserido com sucesso!");
 
         return RedirectToAction(nameof(Listar));
     }
-    
+
     public IActionResult Editar(int id)
     {
         var resultado = servico.SelecionarPorId(id);
@@ -88,14 +91,9 @@ public class AutomovelController : WebControllerBase
             return null;
         }
 
-        var automovel = resultado.Value;
+        var veiculo = resultado.Value;
 
-        var editarVm = mapeador.Map<EditarAutomovelViewModel>(automovel);
-
-        var gruposDisponiveis = resultadoGrupos.Value;
-
-        editarVm.GruposAutomoveis = gruposDisponiveis
-            .Select(g => new SelectListItem(g.Nome, g.Id.ToString()));
+        var editarVm = mapeador.Map<EditarAutomovelViewModel>(veiculo);
 
         return View(editarVm);
     }
@@ -106,9 +104,9 @@ public class AutomovelController : WebControllerBase
         if (!ModelState.IsValid)
             return View(CarregarDadosFormulario(editarVm));
 
-        var automovelAtualizado = mapeador.Map<Automovel>(editarVm);
+        var veiculo = mapeador.Map<Automovel>(editarVm);
 
-        var resultado = servico.Editar(automovelAtualizado);
+        var resultado = servico.Editar(veiculo);
 
         if (resultado.IsFailed)
         {
@@ -117,11 +115,11 @@ public class AutomovelController : WebControllerBase
             return RedirectToAction(nameof(Listar));
         }
 
-        ApresentarMensagemSucesso($"O registro ID [{automovelAtualizado.Id}] foi editado com sucesso!");
+        ApresentarMensagemSucesso($"O registro ID [{veiculo.Id}] foi editado com sucesso!");
 
         return RedirectToAction(nameof(Listar));
     }
-    
+
     public IActionResult Excluir(int id)
     {
         var resultado = servico.SelecionarPorId(id);
@@ -133,9 +131,9 @@ public class AutomovelController : WebControllerBase
             return RedirectToAction(nameof(Listar));
         }
 
-        var automovel = resultado.Value;
+        var veiculo = resultado.Value;
 
-        var detalhesVm = mapeador.Map<DetalhesAutomovelViewModel>(automovel);
+        var detalhesVm = mapeador.Map<DetalhesAutomovelViewModel>(veiculo);
 
         return View(detalhesVm);
     }
@@ -156,7 +154,7 @@ public class AutomovelController : WebControllerBase
 
         return RedirectToAction(nameof(Listar));
     }
-    
+
     public IActionResult Detalhes(int id)
     {
         var resultado = servico.SelecionarPorId(id);
@@ -168,11 +166,27 @@ public class AutomovelController : WebControllerBase
             return RedirectToAction(nameof(Listar));
         }
 
-        var automovel = resultado.Value;
+        var veiculo = resultado.Value;
 
-        var detalhesVm = mapeador.Map<DetalhesAutomovelViewModel>(automovel);
+        var detalhesVm = mapeador.Map<DetalhesAutomovelViewModel>(veiculo);
 
         return View(detalhesVm);
+    }
+
+    public IActionResult ObterFoto(int id)
+    {
+        var resultado = servico.SelecionarPorId(id);
+
+        if (resultado.IsFailed)
+        {
+            ApresentarMensagemFalha(resultado.ToResult());
+
+            return NotFound();
+        }
+
+        var veiculo = resultado.Value;
+
+        return File(veiculo.Foto, "image/jpeg");
     }
 
     private FormularioAutomovelViewModel? CarregarDadosFormulario(
@@ -190,15 +204,7 @@ public class AutomovelController : WebControllerBase
         var gruposDisponiveis = resultadoGrupos.Value;
 
         if (dadosPrevios is null)
-        {
-            var formularioVm = new FormularioAutomovelViewModel
-            {
-                GruposAutomoveis = gruposDisponiveis
-                    .Select(g => new SelectListItem(g.Nome, g.Id.ToString()))
-            };
-
-            return formularioVm;
-        }
+            dadosPrevios = new FormularioAutomovelViewModel();
 
         dadosPrevios.GruposAutomoveis = gruposDisponiveis
             .Select(g => new SelectListItem(g.Nome, g.Id.ToString()));

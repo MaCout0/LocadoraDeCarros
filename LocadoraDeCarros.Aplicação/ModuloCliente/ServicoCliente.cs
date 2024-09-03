@@ -14,10 +14,10 @@ public class ServicoCliente
 
     public Result<Cliente> Inserir(Cliente cliente)
     {
-        var erros = cliente.Validar();
+        var errosValidacao = cliente.Validar();
 
-        if (erros.Any())
-            return Result.Fail(string.Join("; ", erros));
+        if (errosValidacao.Count > 0)
+            return Result.Fail(errosValidacao);
 
         repositorioCliente.Inserir(cliente);
 
@@ -29,18 +29,23 @@ public class ServicoCliente
         var cliente = repositorioCliente.SelecionarPorId(clienteAtualizado.Id);
 
         if (cliente is null)
-            return Result.Fail("O cliente não foi encontrado");
+            return Result.Fail("O cliente não foi encontrado!");
+
+        var errosValidacao = clienteAtualizado.Validar();
+
+        if (errosValidacao.Count > 0)
+            return Result.Fail(errosValidacao);
 
         cliente.Nome = clienteAtualizado.Nome;
-        cliente.CPF = clienteAtualizado.CPF;
-        cliente.Endereco = clienteAtualizado.Endereco;
-        cliente.Telefone = clienteAtualizado.Telefone;
         cliente.Email = clienteAtualizado.Email;
-        
-        var erros = cliente.Validar();
-
-        if (erros.Any())
-            return Result.Fail(string.Join("; ", erros));
+        cliente.Telefone = clienteAtualizado.Telefone;
+        cliente.TipoCadastro = clienteAtualizado.TipoCadastro;
+        cliente.NumeroDocumento = clienteAtualizado.NumeroDocumento;
+        cliente.Cidade = clienteAtualizado.Cidade;
+        cliente.Estado = clienteAtualizado.Estado;
+        cliente.Bairro = clienteAtualizado.Bairro;
+        cliente.Rua = clienteAtualizado.Rua;
+        cliente.Numero = clienteAtualizado.Numero;
 
         repositorioCliente.Editar(cliente);
 
@@ -75,4 +80,5 @@ public class ServicoCliente
 
         return Result.Ok(clientes);
     }
+
 }

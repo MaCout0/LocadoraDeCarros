@@ -15,7 +15,10 @@ public class PlanoCobrancaController : WebControllerBase
     private readonly ServicoGrupoDeAutomoveis servicoGrupos;
     private readonly IMapper mapeador;
 
-    public PlanoCobrancaController(ServicoPlanoCobranca servico, ServicoGrupoDeAutomoveis servicoGrupos, IMapper mapeador)
+    public PlanoCobrancaController(
+        ServicoPlanoCobranca servico,
+        ServicoGrupoDeAutomoveis servicoGrupos,
+        IMapper mapeador)
     {
         this.servico = servico;
         this.servicoGrupos = servicoGrupos;
@@ -81,11 +84,6 @@ public class PlanoCobrancaController : WebControllerBase
         var planoCobranca = resultado.Value;
 
         var editarVm = mapeador.Map<EditarPlanoCobrancaViewModel>(planoCobranca);
-
-        var grupos = servicoGrupos.SelecionarTodos().Value;
-
-        editarVm.GruposDeAutomoeis = grupos
-            .Select(g => new SelectListItem(g.Nome, g.Id.ToString()));
 
         return View(editarVm);
     }
@@ -177,17 +175,9 @@ public class PlanoCobrancaController : WebControllerBase
         }
 
         if (dadosPrevios is null)
-        {
-            var formularioVm = new FormularioPlanoCobrancaViewModel
-            {
-                GruposDeAutomoeis = resultadoGrupos.Value
-                    .Select(g => new SelectListItem(g.Nome, g.Id.ToString()))
-            };
+            dadosPrevios = new FormularioPlanoCobrancaViewModel();
 
-            return formularioVm;
-        }
-
-        dadosPrevios.GruposDeAutomoeis = resultadoGrupos.Value
+        dadosPrevios.GrupoAutomoveis = resultadoGrupos.Value
             .Select(g => new SelectListItem(g.Nome, g.Id.ToString()));
 
         return dadosPrevios;
