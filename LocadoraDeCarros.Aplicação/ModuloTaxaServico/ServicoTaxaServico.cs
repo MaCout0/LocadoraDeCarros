@@ -1,6 +1,6 @@
 ﻿using FluentResults;
 using LocadoraDeCarros.Dominio.ModuloTaxaServico;
-using LocadoraDeCarros.Dominio.PlanoCobranca;
+using LocadoraDeCarros.Dominio.ModuloPlanoCobranca;
 
 namespace LocadoraDeCarros.Aplicação.ModuloTaxaServico;
 

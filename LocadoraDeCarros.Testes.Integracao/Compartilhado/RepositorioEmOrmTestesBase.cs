@@ -1,15 +1,19 @@
 ﻿using FizzWare.NBuilder;
+using LocadoraDeCarros.Dominio.Combustivel;
 using LocadoraDeCarros.Dominio.ModuloCliente;
 using LocadoraDeCarros.Dominio.ModuloCondutor;
 using LocadoraDeCarros.Dominio.ModuloGrupoDeAutomovel;
+using LocadoraDeCarros.Dominio.ModuloLocacao;
+using LocadoraDeCarros.Dominio.ModuloPlanoCobranca;
 using LocadoraDeCarros.Dominio.ModuloTaxaServico;
 using LocadoraDeCarros.Dominio.ModuoAutomovel;
-using LocadoraDeCarros.Dominio.PlanoCobranca;
 using LocadoraDeCarros.Infra.Orm.Compartilhado;
 using LocadoraDeCarros.Infra.Orm.ModuloAutomovel;
 using LocadoraDeCarros.Infra.Orm.ModuloCliente;
+using LocadoraDeCarros.Infra.Orm.ModuloCombustivel;
 using LocadoraDeCarros.Infra.Orm.ModuloCondutor;
 using LocadoraDeCarros.Infra.Orm.ModuloGrupoDeAutomovel;
+using LocadoraDeCarros.Infra.Orm.ModuloLocacao;
 using LocadoraDeCarros.Infra.Orm.ModuloPlanoCobranca;
 using LocadoraDeCarros.Infra.Orm.ModuloTaxaServico;
 
@@ -17,7 +21,10 @@ namespace LocadoraDeCarros.Tests.Compartilhado;
 
 public abstract class RepositorioEmOrmTestesBase
 {
-    protected LocadoraDbContext dbContext;
+    protected LocadoraDbContext DbContext;
+
+    protected RepositorioLocacaoEmOrm repositorioLocacao;
+    protected RepositorioConfiguracaoCombustivelEmOrm repositorioCombustivel;
     protected RepositorioTaxaServicoEmOrm repositorioTaxa;
     protected RepositorioClienteEmOrm repositorioCliente;
     protected RepositorioCondutorEmOrm repositorioCondutor;
@@ -28,28 +35,34 @@ public abstract class RepositorioEmOrmTestesBase
     [TestInitialize]
     public void Inicializar()
     {
-        dbContext = new LocadoraDbContext();
+        DbContext = new LocadoraDbContext();
 
-        dbContext.TaxaServicos.RemoveRange(dbContext.TaxaServicos);
-        dbContext.PlanosCobranca.RemoveRange(dbContext.PlanosCobranca);
-        dbContext.Condutores.RemoveRange(dbContext.Condutores);
-        dbContext.Clientes.RemoveRange(dbContext.Clientes);
-        dbContext.Automoveis.RemoveRange(dbContext.Automoveis);
-        dbContext.GrupoAutomoveis.RemoveRange(dbContext.GrupoAutomoveis);
+        DbContext.Locacoes.RemoveRange(DbContext.Locacoes);
+        DbContext.ConfiguracoesCombustiveis.RemoveRange(DbContext.ConfiguracoesCombustiveis);
+        DbContext.TaxaServicos.RemoveRange(DbContext.TaxaServicos);
+        DbContext.PlanosCobranca.RemoveRange(DbContext.PlanosCobranca);
+        DbContext.Condutores.RemoveRange(DbContext.Condutores);
+        DbContext.Clientes.RemoveRange(DbContext.Clientes);
+        DbContext.Automoveis.RemoveRange(DbContext.Automoveis);
+        DbContext.GrupoAutomoveis.RemoveRange(DbContext.GrupoAutomoveis);
 
-        dbContext.SaveChanges();
+        DbContext.SaveChanges();
 
-        repositorioTaxa = new RepositorioTaxaServicoEmOrm(dbContext);
-        repositorioPlano = new RepositorioPlanoCobrancaEmOrm(dbContext);
-        repositorioCliente = new RepositorioClienteEmOrm(dbContext);
-        repositorioCondutor = new RepositorioCondutorEmOrm(dbContext);
-        repositorioVeiculo = new RepositorioAutomovelEmOrm(dbContext);
-        repositorioGrupo = new RepositorioGrupoDeAutomovelEmOrm(dbContext);
+        repositorioTaxa = new RepositorioTaxaServicoEmOrm(DbContext);
+        repositorioPlano = new RepositorioPlanoCobrancaEmOrm(DbContext);
+        repositorioCliente = new RepositorioClienteEmOrm(DbContext);
+        repositorioCondutor = new RepositorioCondutorEmOrm(DbContext);
+        repositorioVeiculo = new RepositorioAutomovelEmOrm(DbContext);
+        repositorioGrupo = new RepositorioGrupoDeAutomovelEmOrm(DbContext);
+        repositorioLocacao = new RepositorioLocacaoEmOrm(DbContext);
+        repositorioCombustivel = new RepositorioConfiguracaoCombustivelEmOrm(DbContext);
 
+        BuilderSetup.SetCreatePersistenceMethod<Locacao>(repositorioLocacao.Inserir);
+        BuilderSetup.SetCreatePersistenceMethod<ConfiguracaoCombustivel>(repositorioCombustivel.GravarConfiguracao);
         BuilderSetup.SetCreatePersistenceMethod<TaxaServico>(repositorioTaxa.Inserir);
         BuilderSetup.SetCreatePersistenceMethod<PlanoCobranca>(repositorioPlano.Inserir);
-        BuilderSetup.SetCreatePersistenceMethod<Cliente>(repositorioCliente.Inserir);
         BuilderSetup.SetCreatePersistenceMethod<Condutor>(repositorioCondutor.Inserir);
+        BuilderSetup.SetCreatePersistenceMethod<Cliente>(repositorioCliente.Inserir);
         BuilderSetup.SetCreatePersistenceMethod<Automovel>(repositorioVeiculo.Inserir);
         BuilderSetup.SetCreatePersistenceMethod<GrupoDeAutomoveis>(repositorioGrupo.Inserir);
     }

@@ -1,4 +1,4 @@
-﻿using LocadoraDeCarros.Dominio.PlanoCobranca;
+﻿using LocadoraDeCarros.Dominio.ModuloPlanoCobranca;
 
 namespace LocadoraDeCarros.Testes.Integração.ModuloPlanoCobranca;
 

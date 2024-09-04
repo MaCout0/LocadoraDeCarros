@@ -14,4 +14,11 @@ public class RepositorioTaxaServicoEmOrm : RepositorioBaseEmOrm<TaxaServico>, IR
     {
         return DbContext.TaxaServicos;
     }
+
+    public List<TaxaServico> SelecionarMuitos(List<int> idsTaxasSelecionadas)
+    {
+        return DbContext.TaxaServicos
+            .Where(taxa => idsTaxasSelecionadas.Contains(taxa.Id))
+            .ToList();
+    }
 }

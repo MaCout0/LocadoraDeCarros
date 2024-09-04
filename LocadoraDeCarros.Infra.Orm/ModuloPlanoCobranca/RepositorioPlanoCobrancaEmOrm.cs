@@ -1,4 +1,4 @@
-﻿using LocadoraDeCarros.Dominio.PlanoCobranca;
+﻿using LocadoraDeCarros.Dominio.ModuloPlanoCobranca;
 using LocadoraDeCarros.Infra.Orm.Compartilhado;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,5 +28,13 @@ public class RepositorioPlanoCobrancaEmOrm : RepositorioBaseEmOrm<PlanoCobranca>
             .Include(p => p.GrupoDeAutomoveis)
             .AsNoTracking()
             .ToList();
+    }
+    
+    public PlanoCobranca? FiltrarPlano(Func<PlanoCobranca, bool> predicate)
+    {
+        return ObterRegistros()
+            .Include(p => p.GrupoDeAutomoveis)
+            .Where(predicate)
+            .FirstOrDefault();
     }
 }

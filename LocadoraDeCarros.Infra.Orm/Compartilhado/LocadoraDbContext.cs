@@ -1,21 +1,25 @@
-﻿using LocadoraDeCarros.Dominio.ModuloCliente;
+﻿using LocadoraDeCarros.Dominio.Combustivel;
+using LocadoraDeCarros.Dominio.ModuloAutenticacao;
+using LocadoraDeCarros.Dominio.ModuloCliente;
 using LocadoraDeCarros.Dominio.ModuloCondutor;
 using LocadoraDeCarros.Dominio.ModuloGrupoDeAutomovel;
+using LocadoraDeCarros.Dominio.ModuloLocacao;
 using LocadoraDeCarros.Dominio.ModuloTaxaServico;
 using LocadoraDeCarros.Dominio.ModuoAutomovel;
-using LocadoraDeCarros.Dominio.PlanoCobranca;
+using LocadoraDeCarros.Dominio.ModuloPlanoCobranca;
 using LocadoraDeCarros.Infra.Orm.ModuloAutomovel;
 using LocadoraDeCarros.Infra.Orm.ModuloCliente;
 using LocadoraDeCarros.Infra.Orm.ModuloCondutor;
 using LocadoraDeCarros.Infra.Orm.ModuloGrupoDeAutomovel;
 using LocadoraDeCarros.Infra.Orm.ModuloPlanoCobranca;
 using LocadoraDeCarros.Infra.Orm.ModuloTaxaServico;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace LocadoraDeCarros.Infra.Orm.Compartilhado;
 
-public class LocadoraDbContext : DbContext
+public class LocadoraDbContext : IdentityDbContext<Usuario, Perfil, int>
 {
     public DbSet<GrupoDeAutomoveis> GrupoAutomoveis { get; set; }
     public DbSet<Automovel> Automoveis { get; set; }
@@ -23,6 +27,10 @@ public class LocadoraDbContext : DbContext
     public DbSet<TaxaServico> TaxaServicos { get; set; }
     public DbSet<Cliente> Clientes { get; set; }
     public DbSet<Condutor> Condutores { get; set; }
+    public DbSet<ConfiguracaoCombustivel> ConfiguracoesCombustiveis { get; set; }
+    
+    public DbSet<Locacao> Locacoes { get; set; }
+    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         var config = new ConfigurationBuilder()
@@ -40,13 +48,10 @@ public class LocadoraDbContext : DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new MapeadorGrupoDeAutomoveisEmOrm());
-            modelBuilder.ApplyConfiguration(new MapeadorAutomoveEmOrm());
-            modelBuilder.ApplyConfiguration(new MapeadorPlanoCobrancaEmOrm());
-            modelBuilder.ApplyConfiguration(new MapeadorTaxaServicoEmOrm());
-            modelBuilder.ApplyConfiguration(new MapeadorClienteEmOrm());
-            modelBuilder.ApplyConfiguration(new MapeadorCondutorEmOrm());
-            
+            var assembly = typeof(LocadoraDbContext).Assembly;
+
+            modelBuilder.ApplyConfigurationsFromAssembly(assembly);
+
             base.OnModelCreating(modelBuilder);
         }
 }

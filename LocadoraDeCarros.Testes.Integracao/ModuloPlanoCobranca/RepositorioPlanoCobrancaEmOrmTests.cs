@@ -1,6 +1,6 @@
 ﻿using FizzWare.NBuilder;
 using LocadoraDeCarros.Dominio.ModuloGrupoDeAutomovel;
-using LocadoraDeCarros.Dominio.PlanoCobranca;
+using LocadoraDeCarros.Dominio.ModuloPlanoCobranca;
 using LocadoraDeCarros.Infra.Orm.Compartilhado;
 using LocadoraDeCarros.Infra.Orm.ModuloGrupoDeAutomovel;
 using LocadoraDeCarros.Infra.Orm.ModuloPlanoCobranca;

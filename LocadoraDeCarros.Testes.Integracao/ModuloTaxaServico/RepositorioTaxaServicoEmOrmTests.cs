@@ -1,6 +1,6 @@
 ﻿using FizzWare.NBuilder;
 using LocadoraDeCarros.Dominio.ModuloTaxaServico;
-using LocadoraDeCarros.Dominio.PlanoCobranca;
+using LocadoraDeCarros.Dominio.ModuloPlanoCobranca;
 using LocadoraDeCarros.Infra.Orm.Compartilhado;
 using LocadoraDeCarros.Infra.Orm.ModuloTaxaServico;
 

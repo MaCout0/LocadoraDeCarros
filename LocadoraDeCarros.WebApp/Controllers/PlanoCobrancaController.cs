@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using LocadoraDeCarros.Aplicação.ModuloPlanoCobranca;
 using LocadoraDeCarros.Aplicação.Servicos;
-using LocadoraDeCarros.Dominio.PlanoCobranca;
+using LocadoraDeCarros.Dominio.ModuloPlanoCobranca;
 using LocadoraDeCarros.WebApp.Compartilhado;
 using LocadoraDeCarros.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;

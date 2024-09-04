@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using LocadoraDeCarros.Dominio.PlanoCobranca;
+using LocadoraDeCarros.Dominio.ModuloPlanoCobranca;
 using LocadoraDeCarros.WebApp.Models;
 
 namespace LocadoraDeCarros.WebApp.Mapping;

@@ -1,5 +1,5 @@
 ﻿using FluentResults;
-using LocadoraDeCarros.Dominio.PlanoCobranca;
+using LocadoraDeCarros.Dominio.ModuloPlanoCobranca;
 
 namespace LocadoraDeCarros.Aplicação.ModuloPlanoCobranca;
 
@@ -66,5 +66,15 @@ public class ServicoPlanoCobranca
         var planosCobranca = repositorioPlanoCobranca.SelecionarTodos();
 
         return Result.Ok(planosCobranca);
+    }
+    
+    public Result<PlanoCobranca> SelecionarPorIdGrupoVeiculos(int grupoVeiculosId)
+    {
+        var plano = repositorioPlanoCobranca.FiltrarPlano(p => p.GrupoAutomoveisId == grupoVeiculosId);
+
+        if (plano is null)
+            return Result.Fail("O plano de cobrança não foi encontrado!");
+
+        return Result.Ok(plano);
     }
 }

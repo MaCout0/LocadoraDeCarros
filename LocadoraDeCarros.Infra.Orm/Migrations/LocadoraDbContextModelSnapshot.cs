@@ -22,6 +22,152 @@ namespace LocadoraDeCarros.Infra.Orm.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("LocacaoTaxaServico", b =>
+                {
+                    b.Property<int>("LocacoesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TaxasSelecionadasId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LocacoesId", "TaxasSelecionadasId");
+
+                    b.HasIndex("TaxasSelecionadasId");
+
+                    b.ToTable("TBLocacaoTaxa", (string)null);
+                });
+
+            modelBuilder.Entity("LocadoraDeCarros.Dominio.Combustivel.ConfiguracaoCombustivel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("ValorAlcool")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("ValorDiesel")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("ValorGas")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("ValorGasolina")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TBConfiguracaoCombustivel", (string)null);
+                });
+
+            modelBuilder.Entity("LocadoraDeCarros.Dominio.ModuloAutenticacao.Perfil", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("LocadoraDeCarros.Dominio.ModuloAutenticacao.Usuario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("EmpresaId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmpresaId");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
             modelBuilder.Entity("LocadoraDeCarros.Dominio.ModuloCliente.Cliente", b =>
                 {
                     b.Property<int>("Id")
@@ -135,7 +281,7 @@ namespace LocadoraDeCarros.Infra.Orm.Migrations
                     b.ToTable("TBGrupoDeAutomoveis", (string)null);
                 });
 
-            modelBuilder.Entity("LocadoraDeCarros.Dominio.ModuloTaxaServico.TaxaServico", b =>
+            modelBuilder.Entity("LocadoraDeCarros.Dominio.ModuloLocacao.Locacao", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -143,60 +289,45 @@ namespace LocadoraDeCarros.Infra.Orm.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<int>("TipoCobranca")
+                    b.Property<int>("AutomovelId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Valor")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TBTaxa", (string)null);
-                });
-
-            modelBuilder.Entity("LocadoraDeCarros.Dominio.ModuoAutomovel.Automovel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("CondutorId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CapacidadeTanque")
+                    b.Property<int>("ConfiguracaoCombustivelId")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("Foto")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("varbinary(max)")
-                        .HasDefaultValue(new byte[0]);
+                    b.Property<DateTime?>("DataDevolucao")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("GrupoDeAutomoveisId")
+                    b.Property<DateTime>("DataLocacao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DevolucaoPrevista")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("MarcadorCombustivel")
                         .HasColumnType("int");
 
-                    b.Property<string>("Marca")
-                        .IsRequired()
-                        .HasColumnType("varchar(100)");
+                    b.Property<int>("QuilometragemPercorrida")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Modelo")
-                        .IsRequired()
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<int>("TipoCombustivel")
+                    b.Property<int>("TipoPlano")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GrupoDeAutomoveisId");
+                    b.HasIndex("AutomovelId");
 
-                    b.ToTable("TBAutomovel", (string)null);
+                    b.HasIndex("CondutorId");
+
+                    b.HasIndex("ConfiguracaoCombustivelId");
+
+                    b.ToTable("TBLocacao", (string)null);
                 });
 
-            modelBuilder.Entity("LocadoraDeCarros.Dominio.PlanoCobranca.PlanoCobranca", b =>
+            modelBuilder.Entity("LocadoraDeCarros.Dominio.ModuloPlanoCobranca.PlanoCobranca", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -232,6 +363,197 @@ namespace LocadoraDeCarros.Infra.Orm.Migrations
                     b.ToTable("TBPlanoCobranca", (string)null);
                 });
 
+            modelBuilder.Entity("LocadoraDeCarros.Dominio.ModuloTaxaServico.TaxaServico", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<int>("TipoCobranca")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Valor")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TBTaxa", (string)null);
+                });
+
+            modelBuilder.Entity("LocadoraDeCarros.Dominio.ModuoAutomovel.Automovel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Alugado")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("CapacidadeTanque")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("Foto")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("varbinary(max)")
+                        .HasDefaultValue(new byte[0]);
+
+                    b.Property<int>("GrupoDeAutomoveisId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Marca")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Modelo")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int>("TipoCombustivel")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GrupoDeAutomoveisId");
+
+                    b.ToTable("TBAutomovel", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("LocacaoTaxaServico", b =>
+                {
+                    b.HasOne("LocadoraDeCarros.Dominio.ModuloLocacao.Locacao", null)
+                        .WithMany()
+                        .HasForeignKey("LocacoesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LocadoraDeCarros.Dominio.ModuloTaxaServico.TaxaServico", null)
+                        .WithMany()
+                        .HasForeignKey("TaxasSelecionadasId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("LocadoraDeCarros.Dominio.ModuloAutenticacao.Usuario", b =>
+                {
+                    b.HasOne("LocadoraDeCarros.Dominio.ModuloAutenticacao.Usuario", "Empresa")
+                        .WithMany()
+                        .HasForeignKey("EmpresaId");
+
+                    b.Navigation("Empresa");
+                });
+
             modelBuilder.Entity("LocadoraDeCarros.Dominio.ModuloCondutor.Condutor", b =>
                 {
                     b.HasOne("LocadoraDeCarros.Dominio.ModuloCliente.Cliente", "Cliente")
@@ -241,6 +563,44 @@ namespace LocadoraDeCarros.Infra.Orm.Migrations
                         .IsRequired();
 
                     b.Navigation("Cliente");
+                });
+
+            modelBuilder.Entity("LocadoraDeCarros.Dominio.ModuloLocacao.Locacao", b =>
+                {
+                    b.HasOne("LocadoraDeCarros.Dominio.ModuoAutomovel.Automovel", "Automovel")
+                        .WithMany()
+                        .HasForeignKey("AutomovelId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("LocadoraDeCarros.Dominio.ModuloCondutor.Condutor", "Condutor")
+                        .WithMany()
+                        .HasForeignKey("CondutorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("LocadoraDeCarros.Dominio.Combustivel.ConfiguracaoCombustivel", "ConfiguracaoCombustivel")
+                        .WithMany()
+                        .HasForeignKey("ConfiguracaoCombustivelId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Automovel");
+
+                    b.Navigation("Condutor");
+
+                    b.Navigation("ConfiguracaoCombustivel");
+                });
+
+            modelBuilder.Entity("LocadoraDeCarros.Dominio.ModuloPlanoCobranca.PlanoCobranca", b =>
+                {
+                    b.HasOne("LocadoraDeCarros.Dominio.ModuloGrupoDeAutomovel.GrupoDeAutomoveis", "GrupoDeAutomoveis")
+                        .WithMany()
+                        .HasForeignKey("GrupoAutomoveisId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("GrupoDeAutomoveis");
                 });
 
             modelBuilder.Entity("LocadoraDeCarros.Dominio.ModuoAutomovel.Automovel", b =>
@@ -254,15 +614,55 @@ namespace LocadoraDeCarros.Infra.Orm.Migrations
                     b.Navigation("GrupoAutomoveis");
                 });
 
-            modelBuilder.Entity("LocadoraDeCarros.Dominio.PlanoCobranca.PlanoCobranca", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("LocadoraDeCarros.Dominio.ModuloGrupoDeAutomovel.GrupoDeAutomoveis", "GrupoDeAutomoveis")
+                    b.HasOne("LocadoraDeCarros.Dominio.ModuloAutenticacao.Perfil", null)
                         .WithMany()
-                        .HasForeignKey("GrupoAutomoveisId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.HasOne("LocadoraDeCarros.Dominio.ModuloAutenticacao.Usuario", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.HasOne("LocadoraDeCarros.Dominio.ModuloAutenticacao.Usuario", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.HasOne("LocadoraDeCarros.Dominio.ModuloAutenticacao.Perfil", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("GrupoDeAutomoveis");
+                    b.HasOne("LocadoraDeCarros.Dominio.ModuloAutenticacao.Usuario", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.HasOne("LocadoraDeCarros.Dominio.ModuloAutenticacao.Usuario", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("LocadoraDeCarros.Dominio.ModuloCliente.Cliente", b =>

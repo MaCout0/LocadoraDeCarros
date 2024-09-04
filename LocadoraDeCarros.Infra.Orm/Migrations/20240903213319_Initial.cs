@@ -12,6 +12,23 @@ namespace LocadoraDeCarros.Infra.Orm.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "ConfiguracoesCombustiveis",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DataCriacao = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ValorGasolina = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ValorGas = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ValorDiesel = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ValorAlcool = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ConfiguracoesCombustiveis", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TBCliente",
                 columns: table => new
                 {
@@ -155,6 +172,9 @@ namespace LocadoraDeCarros.Infra.Orm.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ConfiguracoesCombustiveis");
+
             migrationBuilder.DropTable(
                 name: "TBAutomovel");
 

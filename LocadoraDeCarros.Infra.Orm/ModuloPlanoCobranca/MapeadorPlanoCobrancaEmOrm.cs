@@ -1,4 +1,4 @@
-﻿using LocadoraDeCarros.Dominio.PlanoCobranca;
+﻿using LocadoraDeCarros.Dominio.ModuloPlanoCobranca;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
